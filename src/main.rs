@@ -1,3 +1,5 @@
+use disc::math_game_main;
+
 
 
 pub mod disc;
@@ -5,5 +7,5 @@ pub mod disc;
 
 
 fn main() {
-    println!("Hello, world!");
+    math_game_main()
 }
