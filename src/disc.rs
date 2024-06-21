@@ -37,7 +37,7 @@ fn gen_targil_by_score(score: i32) -> Option<i32>
 pub fn math_game_main()
 {
 	let mut score = 0;
-	while true {
+	loop {
 		let result = gen_targil_by_score(score);
 		let user_result = read_line().parse::<i32>().unwrap();
 		if result.is_none()
@@ -46,7 +46,14 @@ pub fn math_game_main()
 		}
 		else
 		{
-			
+			if result.unwrap() == user_result
+			{
+				score += 1;
+			}
+			else
+			{
+				score -= 1;
+			}
 		}
 	}
 }
