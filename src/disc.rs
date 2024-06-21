@@ -1,4 +1,4 @@
-use std::{io::{self, Write}};
+use std::{io::{self, Write}, ops::Range};
 
 use rand::Rng;
 
@@ -15,14 +15,32 @@ fn read_line() -> String {
 	input.trim().to_string()  // Trim the newline character and return the input
 }
 
+trait InRange {
+	fn in_range(self, range: Range<i32>) -> bool;
+}
+
+impl InRange for i32
+{
+	fn in_range(self, range: Range<i32>) -> bool {
+		range.contains(&self)
+	}
+}
+
 fn gen_targil_by_score(score: i32) -> Option<i32>
 {
 	let mut rng = rand::thread_rng();
 	match score {
 		n if n < 10 => 
 		{
-			let a = rng.gen_range(0..11);
-			let b = rng.gen_range(0..11);
+			let a = rng.gen_range(0..10);
+			let b = rng.gen_range(0..10);
+			println!("{} + {}", a, b);
+			Some(a + b)
+		}
+		n if n.in_range(10..20) =>
+		{
+			let a = rng.gen_range(0..20);
+			let b = rng.gen_range(0..20);
 			println!("{} + {}", a, b);
 			Some(a + b)
 		}
@@ -39,13 +57,13 @@ pub fn math_game_main()
 	let mut score = 0;
 	loop {
 		let result = gen_targil_by_score(score);
-		let user_result = read_line().parse::<i32>().unwrap();
 		if result.is_none()
 		{
 			break;
 		}
 		else
 		{
+			let user_result = read_line().parse::<i32>().unwrap();
 			if result.unwrap() == user_result
 			{
 				score += 1;
