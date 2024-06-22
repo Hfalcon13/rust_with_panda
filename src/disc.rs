@@ -1,4 +1,4 @@
-use std::{io::{self, Write}, ops::Range};
+use std::io::{self, Write};
 
 use rand::Rng;
 
@@ -15,34 +15,51 @@ fn read_line() -> String {
 	input.trim().to_string()  // Trim the newline character and return the input
 }
 
-trait InRange {
-	fn in_range(self, range: Range<i32>) -> bool;
-}
+// trait InRange {
+// 	fn in_range(self, range: Range<i32>) -> bool;
+// }
 
-impl InRange for i32
-{
-	fn in_range(self, range: Range<i32>) -> bool {
-		range.contains(&self)
-	}
-}
+// impl InRange for i32
+// {
+// 	fn in_range(self, range: Range<i32>) -> bool {
+// 		range.contains(&self)
+// 	}
+// }
 
 fn gen_targil_by_score(score: i32) -> Option<i32>
 {
 	let mut rng = rand::thread_rng();
-	match score {
-		n if n < 10 => 
+
+	let arena = score / 10;
+
+	match arena {
+		0 => 
 		{
 			let a = rng.gen_range(0..10);
 			let b = rng.gen_range(0..10);
 			println!("{} + {}", a, b);
 			Some(a + b)
 		}
-		n if n.in_range(10..20) =>
+		1 =>
 		{
-			let a = rng.gen_range(0..20);
-			let b = rng.gen_range(0..20);
+			let a = rng.gen_range(0..100);
+			let b = rng.gen_range(0..100);
 			println!("{} + {}", a, b);
 			Some(a + b)
+		}
+		2 =>
+		{
+			let a = rng.gen_range(0..10);
+			let b = rng.gen_range(0..10);
+			println!("{} - {}", a, b);
+			Some(a - b)
+		}
+		3 =>
+		{
+			let a = rng.gen_range(0..100);
+			let b = rng.gen_range(0..100);
+			println!("{} - {}", a, b);
+			Some(a - b)
 		}
 		_ => 
 		{
