@@ -103,6 +103,22 @@ fn gen_targil_by_score(score: i32) -> Option<i32>
 
 			Some(pair.1(a, b))
 		}
+		5 =>
+		{
+			let a = rng.gen_range(-7..=7);
+			let b = rng.gen_range(-7..=7);
+			let c = rng.gen_range(-7..=7);
+
+			if f64::floor(-b as f64 / (2 * a) as f64) != -b as f64 / (2 * a) as f64 ||
+				a == 0 
+			{
+				return gen_targil_by_score(score);
+			}
+
+			println!("{}x^2 + {}x + {}\nfind the extrema point", a, b, c);
+
+			Some(-b / (2 * a))
+		}
 		_ => 
 		{
 			println!("bro ended the game");
@@ -114,7 +130,7 @@ fn gen_targil_by_score(score: i32) -> Option<i32>
 
 pub fn math_game_main()
 {
-	let mut score = 39;
+	let mut score = 50;
 	loop {
 		let result = gen_targil_by_score(score);
 		if result.is_none()
