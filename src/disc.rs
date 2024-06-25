@@ -1,6 +1,11 @@
-use std::io::{self, Write};
+use std::{io::{self, Write}, ops::{Add, Sub, Mul, Div}};
 
+use num::FromPrimitive;
+use num_derive::FromPrimitive;
 use rand::Rng;
+
+
+
 
 
 pub fn length_of_last_word(s: String) -> i32
@@ -25,6 +30,26 @@ fn read_line() -> String {
 // 		range.contains(&self)
 // 	}
 // }
+
+#[derive(FromPrimitive, PartialEq, Eq)]
+enum Op {
+	Add,
+	Sub,
+	Mul,
+	Div,
+}
+impl Op
+{
+	pub fn to_char_and_fn(self) -> (char, fn(i32, i32) -> i32)
+	{
+		match self {
+			Op::Add => ('+', i32::add as fn(i32, i32) -> i32),
+			Op::Sub => ('-', i32::sub as fn(i32, i32) -> i32),
+			Op::Mul => ('*', i32::mul as fn(i32, i32) -> i32),
+			Op::Div => ('/', i32::div as fn(i32, i32) -> i32),
+		}
+	}
+}
 
 fn gen_targil_by_score(score: i32) -> Option<i32>
 {
@@ -61,9 +86,27 @@ fn gen_targil_by_score(score: i32) -> Option<i32>
 			println!("{} - {}", a, b);
 			Some(a - b)
 		}
+		4 => 
+		{
+			let op: Op = FromPrimitive::from_u32(rng.gen_range(0..4)).unwrap();
+			let a = rng.gen_range(0..10);
+			let b = rng.gen_range(0..10);
+
+			if op == Op::Div && b == 0
+			{
+				return gen_targil_by_score(score);
+			}
+
+			let pair = op.to_char_and_fn();
+
+			println!("{} {} {}", a, pair.0, b);
+
+			Some(pair.1(a, b))
+		}
 		_ => 
 		{
 			println!("bro ended the game");
+			
 			None
 		}
 	}
@@ -71,7 +114,7 @@ fn gen_targil_by_score(score: i32) -> Option<i32>
 
 pub fn math_game_main()
 {
-	let mut score = 0;
+	let mut score = 39;
 	loop {
 		let result = gen_targil_by_score(score);
 		if result.is_none()
