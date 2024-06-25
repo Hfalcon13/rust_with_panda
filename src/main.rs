@@ -5,6 +5,7 @@ use virtual_memory::VirtualMemory;
 
 
 pub mod disc;
+mod dfa;
 
 
 fn run_ml(buf: &[u8], arg: u64) -> u64
